@@ -1,29 +1,32 @@
 {
   "schemaVersion": 1,
-  "id": "template",
+  "id": "scuttle",
   "version": "${version}",
 
-  "name": "My Mod Template",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Scuttle",
+  "description": "A mod adding small creatures",
   "authors": [
     "quaoz"
   ],
   "contact": {
     "homepage": "https://github.com/quaoz/",
-    "sources": "https://github.com/quaoz/fabric-example-mod"
+    "sources": "https://github.com/quaoz/scuttle"
   },
 
   "license": "",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/scuttle/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.quaoz.ExampleMod"
-    ]
+	  "com.github.quaoz.Scuttle"
+    ],
+	"client": [
+	  "com.github.quaoz.client.ScuttleClient"
+	]
   },
   "mixins": [
-    "modid.mixins.json"
+    "scuttle.mixins.json"
   ],
 
   "depends": {
