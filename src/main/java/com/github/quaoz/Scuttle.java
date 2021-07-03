@@ -9,7 +9,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.geckolib3.GeckoLib;
 
 public class Scuttle implements ModInitializer {
 	public static final String MODID = "scuttle";
@@ -22,7 +21,6 @@ public class Scuttle implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		GeckoLib.initialize();
 		ScuttleRegistry.init();
 		INSTANCE = this;
 
