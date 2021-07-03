@@ -1,9 +1,15 @@
-# Fabric Example Mod
+![GitHub License](https://img.shields.io/github/license/quaoz/scuttle)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/quaoz/scuttle/build)
+![GitHub issues](https://img.shields.io/github/issues-raw/quaoz/scuttle)
 
-## Setup
+# Scuttle
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+A mod adding small creatures to try to make the game feel more alive. Currently in very early development.
 
-## License
+## Building
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+```shell
+git clone https://github.com/quaoz/scuttle.git
+cd scuttle
+./gradlew build
+```
