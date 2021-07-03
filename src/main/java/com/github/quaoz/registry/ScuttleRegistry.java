@@ -29,7 +29,7 @@ public final class ScuttleRegistry {
 					.spawnGroup(SpawnGroup.AMBIENT)
 					.entityFactory(SnakeEntity::new)
 					.defaultAttributes(SnakeEntity::createSnakeAttributes)
-					.dimensions(EntityDimensions.changing(1f, 0.5f))
+					.dimensions(EntityDimensions.changing(1f, 0.2f))
 					.spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, SnakeEntity::canSpawn)
 					.build()
 	);
