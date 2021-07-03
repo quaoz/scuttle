@@ -2,7 +2,6 @@ package com.github.quaoz.registry;
 
 import com.github.quaoz.entity.SnakeEntity;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
@@ -14,7 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.tag.Tag;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 
@@ -41,7 +39,6 @@ public final class ScuttleRegistry {
 	}
 
 	public static void init() {
-		// FabricDefaultAttributeRegistry.register(SNAKE_ENTITY_TYPE, SnakeEntity.createMobAttributes());
 	}
 
 	static {
