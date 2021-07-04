@@ -1,6 +1,5 @@
 package com.github.quaoz.entity;
 
-import com.github.quaoz.registry.ScuttleRegistry;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -29,26 +28,27 @@ public class SnakeEntity extends AnimalEntity {
 
 	public SnakeEntity(EntityType<? extends SnakeEntity> entityType, World world) {
 		super(entityType, world);
+		this.stepHeight = 1.f;
 	}
 
 	public static DefaultAttributeContainer.Builder createSnakeAttributes() {
 		return MobEntity.createMobAttributes()
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2f)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0);
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0);
 	}
 
-	public static boolean canSpawn(EntityType<? extends AnimalEntity> type, WorldAccess world, SpawnReason spawnReason,
+	public static boolean canSpawn(EntityType<SnakeEntity> type, WorldAccess world, SpawnReason spawnReason,
 								   BlockPos pos, Random random) {
 		var spawnBlock = world.getBlockState(pos.down());
-		return world.getBaseLightLevel(pos, 0) > 8 && spawnBlock.isIn(ScuttleRegistry.SNAKE_SPAWN_BLOCKS);
+		return world.getBaseLightLevel(pos, 0) > 5 && spawnBlock.allowsSpawning(world, pos.down(), type);
 	}
 
 	@Override
 	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
 								 @Nullable EntityData entityData,
 								 @Nullable NbtCompound entityNbt) {
+		this.lastBiteTicks = 0;
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
 
@@ -57,7 +57,7 @@ public class SnakeEntity extends AnimalEntity {
 		super.initGoals();
 
 		this.goalSelector.add(0, new SwimGoal(this));
-		this.goalSelector.add(1, new EscapeDangerGoal(this, 1.1));
+		this.goalSelector.add(1, new EscapeDangerGoal(this, 1.2));
 		this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.f));
 		this.goalSelector.add(3, new LookAtEntityGoal(this, LivingEntity.class, 5.f));
 		this.goalSelector.add(4, new LookAroundGoal(this));
@@ -82,7 +82,6 @@ public class SnakeEntity extends AnimalEntity {
 			player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * world.getRandom().nextInt(2), 0), this);
 			lastBiteTicks = 200;
 		}
-
 	}
 
 	@Nullable

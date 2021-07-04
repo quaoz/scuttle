@@ -11,15 +11,18 @@ public class SnakeEntityModel extends EntityModel<SnakeEntity> {
 	public static final String BODY = "body";
 	public static final String TAIL = "tail";
 	private final Model adultModel;
+	private final Model babyModel;
 
 	public SnakeEntityModel(ModelPart root) {
 		this.adultModel = new Model(root.getChild("adult"));
+		this.babyModel = new Model(root.getChild("baby"));
 	}
 
 	public static TexturedModelData model() {
 		var modelData = new ModelData();
 		var root = modelData.getRoot();
 		buildAdultModel(root.addChild("adult", new ModelPartBuilder(), ModelTransform.NONE));
+		buildBabyModel(root.addChild("baby", new ModelPartBuilder(), ModelTransform.NONE));
 		return TexturedModelData.of(modelData, 24, 24);
 	}
 
@@ -68,11 +71,43 @@ public class SnakeEntityModel extends EntityModel<SnakeEntity> {
 						.uv(0, 11)
 						.cuboid(5.0F, -2.0F, 1.0F, 1.0F, 2.0F, 1.0F, false),
 				ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+	}
 
+	private static void buildBabyModel(ModelPartData root) {
+		var head = root.addChild(HEAD, new ModelPartBuilder()
+						.uv(0, 6)
+						.cuboid(1.0F, -1.0F, -3.0F, 1.0F, 1.0F, 3.0F, false)
+						.uv(10, 9)
+						.cuboid(-1.0F, 0.0F, -1.0F, 1.0F, 1.0F, 1.0F, false),
+				ModelTransform.pivot(0.0F, 23.0F, -4.0F));
+		head.addChild("jaw", new ModelPartBuilder()
+						.uv(5, 3)
+						.cuboid(-1.0F, 0.0F, -3.0F, 1.0F, 1.0F, 3.0F, false),
+				ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0873F, 0.0F, 0.0F));
+
+		var body = root.addChild(BODY, new ModelPartBuilder()
+						.uv(6, 9)
+						.cuboid(1.0F, -1.0F, 1.0F, 1.0F, 1.0F, 2.0F, false)
+						.uv(0, 0)
+						.cuboid(-3.0F, -1.0F, 0.0F, 5.0F, 1.0F, 1.0F, false)
+						.uv(0, 10)
+						.cuboid(-3.0F, -1.0F, -2.0F, 1.0F, 1.0F, 2.0F, false)
+						.uv(10, 3)
+						.cuboid(-3.0F, -1.0F, -3.0F, 2.0F, 1.0F, 1.0F, false)
+						.uv(10, 0)
+						.cuboid(-1.0F, -1.0F, -4.0F, 1.0F, 1.0F, 2.0F, false),
+				ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+
+		var tail = root.addChild(TAIL, new ModelPartBuilder()
+						.uv(0, 2)
+						.cuboid(-1.0F, -1.0F, 4.0F, 1.0F, 1.0F, 3.0F, false)
+						.uv(5, 7)
+						.cuboid(-1.0F, -1.0F, 3.0F, 3.0F, 1.0F, 1.0F, false),
+				ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 	}
 
 	public Model getCurrentModel() {
-		return this.adultModel;
+		return this.child ? this.babyModel : this.adultModel;
 	}
 
 	@Override

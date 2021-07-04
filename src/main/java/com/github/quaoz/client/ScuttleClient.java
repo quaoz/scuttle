@@ -18,7 +18,7 @@ public class ScuttleClient implements ClientModInitializer {
 	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public void onInitializeClient() {
-		EntityRendererRegistry.INSTANCE.register(ScuttleRegistry.SNAKE_ENTITY_TYPE, SnakeEntityRenderer::new);
+		EntityRendererRegistry.INSTANCE.register(ScuttleRegistry.SNAKE_ENTITY, SnakeEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(SNAKE_MODEL_LAYER, SnakeEntityModel::model);
 	}
 }
