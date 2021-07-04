@@ -1,5 +1,6 @@
 package com.github.quaoz.entity;
 
+import com.github.quaoz.registry.ScuttleRegistry;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
+@SuppressWarnings("EntityConstructor")
 public class SnakeEntity extends AnimalEntity {
 	private int lastBiteTicks;
 
@@ -48,6 +50,11 @@ public class SnakeEntity extends AnimalEntity {
 	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
 								 @Nullable EntityData entityData,
 								 @Nullable NbtCompound entityNbt) {
+
+		if (this.getRandom().nextInt(2) == 1) {
+			this.setBaby(true);
+		}
+
 		this.lastBiteTicks = 0;
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
@@ -78,15 +85,22 @@ public class SnakeEntity extends AnimalEntity {
 	}
 
 	public void onPlayerCollision(PlayerEntity player) {
-		if (player instanceof ServerPlayerEntity && lastBiteTicks == 0 && player.damage(DamageSource.mob(this), (float)(2))) {
-			player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * world.getRandom().nextInt(2), 0), this);
-			lastBiteTicks = 200;
+		if (this.isBaby()) {
+			if (player instanceof ServerPlayerEntity && lastBiteTicks == 0 && player.damage(DamageSource.mob(this), (float)(1))) {
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 30 * this.getRandom().nextInt(2), 0), this);
+				lastBiteTicks = 300;
+			}
+		} else {
+			if (player instanceof ServerPlayerEntity && lastBiteTicks == 0 && player.damage(DamageSource.mob(this), (float) (2))) {
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * this.getRandom().nextInt(2), 0), this);
+				lastBiteTicks = 200;
+			}
 		}
 	}
 
 	@Nullable
 	@Override
-	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-		return null;
+	public SnakeEntity createChild(ServerWorld world, PassiveEntity entity) {
+		return ScuttleRegistry.SNAKE_ENTITY.create(this.world);
 	}
 }

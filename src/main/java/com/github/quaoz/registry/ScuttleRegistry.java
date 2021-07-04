@@ -19,7 +19,7 @@ public class ScuttleRegistry {
 	public static final EntityType<SnakeEntity> SNAKE_ENTITY = FabricEntityTypeBuilder.<SnakeEntity>createMob()
 			.spawnGroup(SpawnGroup.CREATURE)
 			.entityFactory(SnakeEntity::new)
-			.dimensions(EntityDimensions.fixed(1f, 0.2f))
+			.dimensions(EntityDimensions.changing(1f, 0.2f))
 			.spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 					SnakeEntity::canSpawn)
 			.build();

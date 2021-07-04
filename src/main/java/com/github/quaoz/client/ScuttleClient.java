@@ -15,7 +15,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 public class ScuttleClient implements ClientModInitializer {
 	public static final EntityModelLayer SNAKE_MODEL_LAYER = new EntityModelLayer(Scuttle.id("snake"), "main");
 
-	@SuppressWarnings("UnstableApiUsage")
+	@SuppressWarnings({"UnstableApiUsage", "deprecation"})
 	@Override
 	public void onInitializeClient() {
 		EntityRendererRegistry.INSTANCE.register(ScuttleRegistry.SNAKE_ENTITY, SnakeEntityRenderer::new);

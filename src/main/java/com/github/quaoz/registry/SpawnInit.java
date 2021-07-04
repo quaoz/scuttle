@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.world.biome.Biome;
 
+@SuppressWarnings("deprecation")
 public class SpawnInit {
 	public static void init() {
 		BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.JUNGLE),
