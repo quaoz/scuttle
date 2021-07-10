@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class SnakeEntityRenderer extends MobEntityRenderer<SnakeEntity, SnakeEntityModel> {
-	public static final Identifier TEXTURE = Scuttle.id("textures/entity/snake/snake.png");
+	public final static Identifier TEXTURE = Scuttle.id("textures/entity/snake/");
 
 	public SnakeEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, new SnakeEntityModel(context.getPart(ScuttleClient.SNAKE_MODEL_LAYER)), 0.5f);
@@ -25,6 +25,7 @@ public class SnakeEntityRenderer extends MobEntityRenderer<SnakeEntity, SnakeEnt
 
 	@Override
 	public Identifier getTexture(SnakeEntity entity) {
-		return TEXTURE;
+		var spawnBiome = entity.getSpawnBiome();
+		return Scuttle.id(TEXTURE.getPath().concat(spawnBiome).concat("_snake.png"));
 	}
 }
