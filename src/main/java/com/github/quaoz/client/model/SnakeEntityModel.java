@@ -10,20 +10,20 @@ public class SnakeEntityModel extends EntityModel<SnakeEntity> {
 	public static final String HEAD = "head";
 	public static final String BODY = "body";
 	public static final String TAIL = "tail";
-	private final Model adultModel;
+	private final Model model;
 
 	public SnakeEntityModel(ModelPart root) {
-		this.adultModel = new Model(root.getChild("adult"));
+		this.model = new Model(root.getChild("snake"));
 	}
 
 	public static TexturedModelData model() {
 		var modelData = new ModelData();
 		var root = modelData.getRoot();
-		buildAdultModel(root.addChild("adult", new ModelPartBuilder(), ModelTransform.NONE));
+		buildModel(root.addChild("snake", new ModelPartBuilder(), ModelTransform.NONE));
 		return TexturedModelData.of(modelData, 24, 24);
 	}
 
-	private static void buildAdultModel(ModelPartData root) {
+	private static void buildModel(ModelPartData root) {
 		var head = root.addChild(HEAD, new ModelPartBuilder()
 						.uv(8, 13)
 						.cuboid(-3.0F, -2.0F, -7.0F, 2.0F, 1.0F, 1.0F, false)
@@ -37,7 +37,7 @@ public class SnakeEntityModel extends EntityModel<SnakeEntity> {
 						.cuboid(-1.0F, 1.0F, -4.0F, 2.0F, 1.0F, 3.0F, false),
 				ModelTransform.of(-2.0F, -3.0F, -6.0F, 0.0873F, 0.0F, 0.0F));
 
-		var body = root.addChild(BODY, new ModelPartBuilder()
+		root.addChild(BODY, new ModelPartBuilder()
 						.uv(12, 13)
 						.cuboid(-7.0F, -2.0F, -9.0F, 4.0F, 2.0F, 2.0F, false)
 						.uv(20, 4)
@@ -58,7 +58,7 @@ public class SnakeEntityModel extends EntityModel<SnakeEntity> {
 						.cuboid(-11.0F, -2.0F, -1.0F, 10.0F, 2.0F, 2.0F, false),
 				ModelTransform.pivot(6.0F, 24.0F, 2.0F));
 
-		var tail = root.addChild(TAIL, new ModelPartBuilder()
+		root.addChild(TAIL, new ModelPartBuilder()
 						.uv(8, 21)
 						.cuboid(4.0F, -2.0F, 5.0F, 1.0F, 2.0F, 1.0F, false)
 						.uv(0, 8)
@@ -71,7 +71,7 @@ public class SnakeEntityModel extends EntityModel<SnakeEntity> {
 	}
 
 	public Model getCurrentModel() {
-		return this.adultModel;
+		return this.model;
 	}
 
 	@Override
@@ -85,17 +85,12 @@ public class SnakeEntityModel extends EntityModel<SnakeEntity> {
 		matrices.pop();
 	}
 
-	public static class Model {
-		private final ModelPart root;
-		private final ModelPart head;
-		private final ModelPart body;
-		private final ModelPart tail;
-
+	public record Model(ModelPart root) {
 		public Model(ModelPart root) {
 			this.root = root;
-			this.head = root.getChild(HEAD);
-			this.body = root.getChild(BODY);
-			this.tail = root.getChild(TAIL);
+			root.getChild(HEAD);
+			root.getChild(BODY);
+			root.getChild(TAIL);
 		}
 
 		public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
